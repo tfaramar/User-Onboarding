@@ -47,7 +47,7 @@ const UserForm = ({ errors, touched, values, handleSubmit, status }) => {
                 )}
 
                 <label className="checkbox-container">
-                    Terms of Service
+                    Accept Terms of Service
                     <Field
                         type="checkbox"
                         name="serviceterms"
