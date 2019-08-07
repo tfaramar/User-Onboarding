@@ -16,10 +16,10 @@ const UserForm = ({ errors, touched, values, handleSubmit, status }) => {
     console.log(status);
 
     return (
-        <div className="user-form">
+        <div className="ui container">
             <h1>New Users</h1>
-            <Form>
-                <Field
+            <Form className="ui form">
+                <Field className="field"
                     type="text"
                     name="name"
                     placeholder="Name"
@@ -28,35 +28,47 @@ const UserForm = ({ errors, touched, values, handleSubmit, status }) => {
                     <p className="error">{errors.name}</p>
                 )}
 
-                <Field
+                <Field className="field"
                     type="email"
                     name="email"
                     placeholder="Email"
                 />
-                 {touched.email && errors.email && (
+                {touched.email && errors.email && (
                     <p className="error">{errors.email}</p>
                 )}
 
-                <Field
+                <Field 
+                    className="ui selection dropdown"
+                    component="select"
+                    name="role">
+                        <option>Please Select Your Role</option>
+                        <option value="captain">Captain</option>
+                        <option value="firstmate">First Mate</option>
+                        <option value="navigator">Navigator</option>
+                        <option value="passenger">Passenger</option>
+                    </Field>
+
+                <Field className="field"
                     type="password"
                     name="password"
                     placeholder="Password"
                 />
-                 {touched.password && errors.password && (
+                {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
 
                 <label className="checkbox-container">
                     Accept Terms of Service
                     <Field
+                        className="field"
                         type="checkbox"
                         name="serviceterms"
                         checked={values.serviceterms}
                     />
-                    <span className="checkmark" />
+                    <span className="ui checkbox" />
                 </label>
 
-                <button type="submit">Submit</button>
+                <button className="ui button" type="submit">Submit</button>
 
             </Form>
             <div className="users-list">
@@ -71,10 +83,11 @@ const UserForm = ({ errors, touched, values, handleSubmit, status }) => {
 
 const FormikUserForm = withFormik({
     //mapPropsToValues to connect the data in the form to the handlers for that data
-    mapPropsToValues({ name, email, password, serviceterms }) {
+    mapPropsToValues({ name, email, role, password, serviceterms }) {
         return {
             name: name || '',
             email: email || '',
+            role: role || '',
             password: password || '',
             serviceterms: serviceterms || false
         };
@@ -91,6 +104,11 @@ const FormikUserForm = withFormik({
             .min(8, 'Your password must be at least 8 characters long.')
             .required('Please enter a password.'),
         serviceterms: Yup.boolean()
+            .test(
+                'is-true',
+                'Please agree to the terms of service to continue.',
+                value => value === true
+            )
 
     }),
 
@@ -108,3 +126,6 @@ const FormikUserForm = withFormik({
 })(UserForm);
 
 export default FormikUserForm;
+
+
+

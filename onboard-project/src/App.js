@@ -2,6 +2,7 @@ import React from 'react';
 
 import FormikUserForm from './components/Form';
 import './App.css';
+import '../node_modules/semantic-ui-css/semantic.css';
 
 
 function App() {
